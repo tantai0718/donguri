@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Quản lý Đặt Bàn</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <h1>Sushi Delight - Quản lý Đặt Bàn</h1>
+    <a href="/admin" class="btn">← Về Trang Admin</a>
+  </header>
+
+  <main>
+    <h2>Danh sách đặt bàn</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Họ tên</th>
+          <th>Email</th>
+          <th>Chi nhánh</th>
+          <th>Thời gian</th>
+          <th>Số người</th>
+          <th>Ghi chú</th>
+          <th>Trạng thái</th>
+          <th>Ngày tạo</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% datBanList.forEach(item => { %>
+          <tr>
+            <td><%= item.id %></td>
+            <td><%= item.ho_ten %></td>
+            <td><%= item.Email || 'N/A' %></td>
+            <td><%= item.chi_nhanh || 'N/A' %></td>
+            <td><%= new Date(item.thoi_gian).toLocaleString() %></td>
+            <td><%= item.so_nguoi %></td>
+            <td><%= item.ghi_chu || '-' %></td>
+            <td>
+              <% if (item.trang_thai === 'da_xac_nhan') { %>
+                ✔ Đã xác nhận
+              <% } else if (item.trang_thai === 'da_huy') { %>
+                ❌ Đã huỷ
+              <% } else { %>
+                ⏳ Chờ xác nhận
+              <% } %>
+            </td>
+            <td><%= new Date(item.created_at).toLocaleString() %></td>
+            <td>
+              <% if (item.trang_thai === 'cho_xac_nhan') { %>
+                <form method="POST" action="/admin/datban/xacnhan/<%= item.id %>" style="display:inline;">
+                  <button type="submit">✔</button>
+                </form>
+                <form method="POST" action="/admin/datban/huy/<%= item.id %>" style="display:inline;">
+                  <button type="submit">✖</button>
+                </form>
+              <% } else { %>
+                -
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </main>
+
+  <footer>
+    <p>&copy; <%= new Date().getFullYear() %> Sushi Delight</p>
+  </footer>
+</body>
+</html>

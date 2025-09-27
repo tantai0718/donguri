@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Quản lý Món Ăn</title>
+  <style>
+    table { border-collapse: collapse; width: 100%; }
+    th, td { padding: 8px; border: 1px solid #ccc; text-align: center; }
+    .btn { padding: 4px 8px; margin: 2px; }
+    .inline { display: inline-block; }
+    img.thumb { width: 50px; height: auto; }
+  </style>
+</head>
+<body>
+  <h2>Quản lý Món Ăn</h2>
+
+  <!-- Lọc danh mục -->
+  <form method="GET" action="/admin/mon-an">
+    <label>Chọn danh mục:</label>
+    <select name="danh_muc_id">
+      <option value="">-- Tất cả --</option>
+      <% danhMucList.forEach(dm => { %>
+        <option value="<%= dm.id %>" <%= dm.id == selectedCategory ? 'selected' : '' %>>
+          <%= dm.ten_danh_muc %>
+        </option>
+      <% }) %>
+    </select>
+    <button type="submit">🔍 Lọc</button>
+    <a href="/admin/mon-an">↩️ Reset</a>
+  </form>
+
+  <hr>
+
+  <!-- Thêm món -->
+  <form action="/admin/mon-an/them" method="POST" enctype="multipart/form-data">
+    <table>
+      <tr>
+        <td><input name="ten_mon_vn" placeholder="Tên VN" required></td>
+        <td><input name="ten_mon_jp" placeholder="JP"></td>
+        <td><input name="ten_mon_en" placeholder="EN"></td>
+        <td><input name="ten_mon_cn" placeholder="CN"></td>
+        <td><input type="file" name="hinh_anh" accept="image/*"></td>
+        <td><input type="number" name="gia" placeholder="Giá"></td>
+        <td>
+          <select name="danh_muc_id" required>
+            <% danhMucList.forEach(dm => { %>
+              <option value="<%= dm.id %>"><%= dm.ten_danh_muc %></option>
+            <% }) %>
+          </select>
+        </td>
+        <td>
+          <select name="trang_thai">
+            <option value="1">Hiện</option>
+            <option value="0">Ẩn</option>
+          </select>
+        </td>
+        <td><button type="submit">➕ Thêm</button></td>
+      </tr>
+    </table>
+  </form>
+
+  <!-- Danh sách món -->
+  <table>
+    <thead>
+      <tr>
+        <th>Tên VN</th>
+        <th>JP</th>
+        <th>EN</th>
+        <th>CN</th>
+        <th>Hình</th>
+        <th>Giá</th>
+        <th>Danh Mục</th>
+        <th>Trạng thái</th>
+        <th>Hành động</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% items.forEach(item => { %>
+        <tr>
+          <form action="/admin/mon-an/sua/<%= item.id %>" method="POST">
+            <td><input name="ten_mon_vn" value="<%= item.ten_mon_vn %>"></td>
+            <td><input name="ten_mon_jp" value="<%= item.ten_mon_jp %>"></td>
+            <td><input name="ten_mon_en" value="<%= item.ten_mon_en %>"></td>
+            <td><input name="ten_mon_cn" value="<%= item.ten_mon_cn %>"></td>
+            <td>
+              <% if (item.hinh_anh) { %>
+                <img src="<%= item.hinh_anh %>" class="thumb">
+              <% } %>
+              <input name="hinh_anh" value="<%= item.hinh_anh %>">
+            </td>
+            <td><input name="gia" type="number" value="<%= item.gia %>"></td>
+            <td><input name="danh_muc_id" value="<%= item.danh_muc_id %>"></td>
+            <td>
+              <%= item.trang_thai == 1 ? '✅' : '❌' %>
+            </td>
+            <td>
+              <button class="btn">💾 Lưu</button>
+          </form>
+
+          <form action="/admin/mon-an/trangthai/<%= item.id %>" method="POST" class="inline">
+            <input type="hidden" name="trang_thai" value="<%= item.trang_thai == 1 ? 0 : 1 %>">
+            <button class="btn"><%= item.trang_thai == 1 ? 'Ẩn' : 'Hiện' %></button>
+          </form>
+
+          <form action="/admin/mon-an/xoa/<%= item.id %>" method="POST" class="inline" onsubmit="return confirm('Xoá món này?');">
+            <button class="btn" style="color: red;">🗑️ Xoá</button>
+          </form>
+            </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</body>
+</html>

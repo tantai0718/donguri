@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Đặt Bàn - Sushi Delight</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fef7f1;
+      margin: 0;
+    }
+
+    header {
+      background: #fff;
+      padding: 20px 30px;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #e74c3c;
+    }
+
+    nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .submit-btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .submit-btn:hover {
+      background-color: #c0392b;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background-color: #333;
+      color: #fff;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🍣 Sushi Delight</div>
+  <nav>
+    <a href="/">Trang Chủ</a>
+    <a href="/menuanh">Thực Đơn</a>
+    <a href="/datban">Đặt Bàn</a>
+    <a href="/lienhe">Liên Hệ</a>
+  </nav>
+</header>
+
+<div class="container">
+  <h2>Đặt Bàn</h2>
+  <form action="/datban" method="POST" class="reservation-form">
+    <div class="form-group">
+      <label for="ho_ten">Họ tên:</label>
+      <input type="text" id="ho_ten" name="ho_ten" required>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+
+    <div class="form-group">
+      <label for="chi_nhanh">Chi nhánh:</label>
+      <select id="chi_nhanh" name="chi_nhanh" required>
+        <option value="">-- Chọn chi nhánh --</option>
+        <option value="chi nhánh 1">S59/2 sky garden 3, Tân phong, quận 7, tphcm </option>
+        <option value="chi nhánh 2"> SAV3 The Sun Avenue, An phú, quận 2, tphcm</option>
+        <option value="chi nhánh 3">R1-33 Hưng gia 5, Tân phong, Phú Mỹ Hưng, quận 7, Tphcm</option>
+        
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="thoi_gian">Thời gian:</label>
+      <input type="datetime-local" id="thoi_gian" name="thoi_gian" required>
+    </div>
+
+    <div class="form-group">
+      <label for="so_nguoi">Số người:</label>
+      <input type="number" id="so_nguoi" name="so_nguoi" min="1" required>
+    </div>
+
+    <div class="form-group">
+      <label for="ghi_chu">Ghi chú:</label>
+      <textarea id="ghi_chu" name="ghi_chu" rows="3"></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn">Gửi Đặt Bàn</button>
+  </form>
+</div>
+
+<footer>
+  &copy; <%= new Date().getFullYear() %> Sushi Delight. All rights reserved.
+</footer>
+
+</body>
+</html>

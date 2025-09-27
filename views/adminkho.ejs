@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Quản lý Kho - Sushi Delight</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .container { max-width: 960px; margin: auto; padding: 20px; }
+    h1 { text-align: center; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { padding: 10px; border: 1px solid #ccc; text-align: center; }
+    .actions { margin: 20px 0; display: flex; gap: 10px; justify-content: center; }
+    .toggle-form { display: none; margin: 10px 0; padding: 15px; border: 1px solid #ddd; background: #f9f9f9; }
+    .btn { padding: 8px 16px; border: none; background: #4CAF50; color: white; cursor: pointer; }
+    .btn:hover { background: #388E3C; }
+    .btn-danger { background: #f44336; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📦 Quản lý Kho Nguyên Liệu</h1>
+
+    <div class="actions">
+      <button class="btn" onclick="toggleForm('form-them')">➕ Thêm nguyên liệu mới</button>
+      <button class="btn" onclick="toggleForm('form-nhap')">📥 Nhập kho</button>
+      <button class="btn" onclick="toggleForm('form-xuat')">📤 Xuất kho</button>
+    </div>
+
+    <!-- FORM THÊM -->
+    <form id="form-them" class="toggle-form" method="POST" action="/admin/kho/nhap">
+      <h3>➕ Thêm nguyên liệu mới</h3>
+      <input name="ten" placeholder="Tên nguyên liệu" required />
+      <input name="don_vi" placeholder="Đơn vị (kg, cái...)" />
+      <input name="so_luong" type="number" step="0.01" placeholder="Số lượng" />
+      <input name="nguong_canh_bao" type="number" step="0.01" placeholder="Ngưỡng cảnh báo" />
+      <input name="ghi_chu" placeholder="Ghi chú" />
+      <button type="submit" class="btn">Lưu</button>
+    </form>
+
+    <!-- FORM NHẬP THÊM -->
+    <form id="form-nhap" class="toggle-form" method="POST" action="/admin/kho/nhap-them">
+      <h3>📥 Nhập kho nguyên liệu sẵn có</h3>
+      <select name="nguyen_lieu_id" required>
+        <option value="">-- Chọn nguyên liệu --</option>
+        <% nguyenLieu.forEach(nl => { %>
+          <option value="<%= nl.id %>"><%= nl.ten %> - Còn: <%= nl.so_luong %> <%= nl.don_vi %></option>
+        <% }) %>
+      </select>
+      <input name="so_luong" type="number" step="0.01" placeholder="Số lượng nhập thêm" required />
+      <button type="submit" class="btn">Cập nhật</button>
+    </form>
+
+    <!-- FORM XUẤT -->
+    <form id="form-xuat" class="toggle-form" method="POST" action="/admin/kho/xuat">
+      <h3>📤 Xuất kho thủ công</h3>
+      <select name="nguyen_lieu_id" required>
+        <option value="">-- Chọn nguyên liệu --</option>
+        <% nguyenLieu.forEach(nl => { %>
+          <option value="<%= nl.id %>"><%= nl.ten %> - Còn: <%= nl.so_luong %> <%= nl.don_vi %></option>
+        <% }) %>
+      </select>
+      <input name="so_luong" type="number" step="0.01" placeholder="Số lượng xuất" required />
+      <input name="ghi_chu" placeholder="Ghi chú" />
+      <button type="submit" class="btn btn-danger">Xuất</button>
+    </form>
+
+    <!-- BẢNG DANH SÁCH -->
+    <h2>📃 Danh sách nguyên liệu</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Tên</th>
+          <th>Đơn vị</th>
+          <th>Số lượng</th>
+          <th>Ngưỡng cảnh báo</th>
+          <th>Ghi chú</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% nguyenLieu.forEach(nl => { %>
+          <tr style="<%= nl.so_luong < nl.nguong_canh_bao ? 'background:#fff3cd;' : '' %>">
+            <td><%= nl.id %></td>
+            <td><%= nl.ten %></td>
+            <td><%= nl.don_vi %></td>
+            <td><%= nl.so_luong %></td>
+            <td><%= nl.nguong_canh_bao %></td>
+            <td><%= nl.ghi_chu %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    function toggleForm(id) {
+      const form = document.getElementById(id);
+      form.style.display = form.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+</body>
+</html>

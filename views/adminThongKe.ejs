@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Thống Kê Quản Trị</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .stat-box {
+      background: #f0f0f0;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 10px 0;
+    }
+    h2 { color: #cc0000; }
+  </style>
+</head>
+<body>
+  <h1>📊 Thống Kê Quản Trị</h1>
+
+  <div class="stat-box">🧾 Tổng đơn đặt bàn: <strong><%= tongDatBan %></strong></div>
+  <div class="stat-box">📅 Đơn hôm nay: <%= datBanHomNay %></div>
+  <div class="stat-box">✔️ Đã xác nhận: <%= daXacNhan %> | ❌ Đã huỷ: <%= daHuy %> | ⏳ Chờ: <%= choXacNhan %></div>
+  <div class="stat-box">🍣 Số món ăn: <%= tongMonAn %></div>
+  <div class="stat-box">⚠️ Nguyên liệu sắp hết: <%= nguyenLieuCanBao %></div>
+
+  <a href="/admin" class="btn">⬅️ Quay lại Trang Quản Trị</a>
+</body>
+</html>

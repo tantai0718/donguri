@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đăng Nhập Quản Trị</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <h2>🔐 Đăng Nhập Admin</h2>
+ <form method="POST" action="/login">
+  <input type="text" name="username" placeholder="Tên đăng nhập" required>
+  <input type="password" name="password" placeholder="Mật khẩu" required>
+  <button type="submit">Đăng nhập</button>
+  <% if (error) { %>
+    <p style="color:red;"><%= error %></p>
+  <% } %>
+</form>
+
+</body>
+</html>
